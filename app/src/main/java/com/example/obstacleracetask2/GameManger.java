@@ -1,4 +1,4 @@
-package com.example.obstacleracetask1;
+package com.example.obstacleracetask2;
 
 import java.util.Arrays;
 import java.util.Random;
