@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.obstacleracetask1"
+    namespace = "com.example.obstacleracetask2"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.obstacleracetask1"
+        applicationId = "com.example.obstacleracetask2"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

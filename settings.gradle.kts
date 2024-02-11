@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ObstacleRaceTask1"
+rootProject.name = "ObstacleRaceTask2"
 include(":app")
