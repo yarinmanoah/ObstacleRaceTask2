@@ -3,16 +3,20 @@ package com.example.obstacleracetask2;
 import java.util.Arrays;
 import java.util.Random;
 
-public class GameManger {
-    public static final int MAX_LIVES = 3,COLUMNS = 3,ROWS = 5;
+public class GameManager {
+    public static final int MAX_LIVES = 3,COLUMNS = 5,ROWS = 5;
     public boolean[] lifes;
     public boolean[][] activeIos;
-    private int lives = MAX_LIVES,AndroidIndex;
-    boolean isHit, finish;
+    public boolean[][] activeGifts;
 
-    public GameManger() {
-        AndroidIndex =1;
+    private int lives = MAX_LIVES;
+    private int AndroidIndex;
+    boolean isHit, finish,gift;
+
+    public GameManager() {
+        AndroidIndex =2;
         activeIos =new boolean[ROWS][COLUMNS];
+        activeGifts=new boolean[ROWS][COLUMNS];
         initLives();
     }
     public void initLives(){
@@ -38,6 +42,9 @@ public class GameManger {
     public boolean isActive(int row,int col) {
         return activeIos[row][col];
     }
+    public boolean isGiftActive(int row,int col) {
+        return activeGifts[row][col];
+    }
     public void updateGame() {
         for (int i = getROWS()-1; i >=0;i--){
             for (int j = 0; j <getCOLUMNS();j++){
@@ -46,15 +53,11 @@ public class GameManger {
 
                     if (j == AndroidIndex) {
                         isHit = true;
-                        if(lives==0){
-                            lives = MAX_LIVES; //update lives when over
-                        }
                         reduceLives();
                         lifes[lives] = false;
-                        if(!lifes[0]) { initLives();} // Update hearts
 
-                        //if (lives == 0)
-                           // finish = true;
+                        if (lives == 0)
+                            finish = true;
 
                     }
                 }
@@ -65,15 +68,39 @@ public class GameManger {
             }
         }
     }
-    public void updateNewIos(){
-        int col =getRandom();
-        for(int i = 0;i<getCOLUMNS();i++){
-            activeIos[0][i]= col == i;
+
+    public void updateGifts() {
+        for (int i = getROWS()-1; i >=0;i--){
+            for (int j = 0; j <getCOLUMNS();j++){
+                if( isGiftActive(i,j) && i == getROWS()-1) {
+                    activeGifts[i][j] = false;
+
+                    if (j == AndroidIndex) {
+                        gift=true;
+                    }
+                }
+                else if(i != getROWS()-1){
+                    activeGifts[i+1][j]=activeGifts[i][j];
+
+                }
+            }
         }
+    }
+    public void updateNew(){
+        int col =getRandom();
+        for(int i = 0;i<getCOLUMNS();i++)
+            activeIos[0][i] = col == i;
+        int colForGift = getRandom();
+        while(col == colForGift){
+            colForGift=getRandom();
+        }
+        for(int i = 0;i<getCOLUMNS();i++)
+            activeGifts[0][i] = colForGift == i;
     }
     public void update(){
         updateGame();
-        updateNewIos();
+        updateGifts();
+        updateNew();
     }
 
     public void setHit(boolean hit) {
@@ -90,5 +117,16 @@ public class GameManger {
 
     public void setAndroidIndex(int androidIndex) {
         this.AndroidIndex = androidIndex;
+    }
+
+    public int getAndroidIndex() {
+        return AndroidIndex;
+    }
+    public void setGiftHit(boolean hit) {
+        gift = hit;
+    }
+
+    public boolean isGift() {
+        return gift;
     }
 }
