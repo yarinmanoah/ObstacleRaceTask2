@@ -41,7 +41,7 @@ public class GameOverActivity extends AppCompatActivity {
             findView();
             GameUtils.setBackground(this, space_IMG_Background, background);
 
-            gameOver_LBL_result.setText("Score: " + score);
+            gameOver_LBL_result.setText("" + score);
             initView();
 
         }
