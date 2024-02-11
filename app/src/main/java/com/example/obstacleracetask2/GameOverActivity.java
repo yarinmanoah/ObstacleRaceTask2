@@ -13,7 +13,6 @@ import java.util.Comparator;
 
 public class GameOverActivity extends AppCompatActivity {
         private AppCompatImageView space_IMG_Background;
-        private TextView gameOver_LBL_score;
         private TextView gameOver_LBL_result;
         private EditText gameOver_LBL_name;
         private MaterialButton gameOver_BTN_saveRecord;
@@ -77,7 +76,6 @@ public class GameOverActivity extends AppCompatActivity {
             gameOver_LBL_result = findViewById(R.id.gameOver_LBL_result);
             gameOver_LBL_name = findViewById(R.id.gameOver_LBL_name);
             space_IMG_Background = findViewById(R.id.space_IMG_background);
-            gameOver_LBL_score = findViewById(R.id.gameOver_LBL_score);
 
             gameOver_BTN_saveRecord = findViewById(R.id.gameOver_BTN_saveRecord);
             gameOver_BTN_back = findViewById(R.id.gameOver_BTN_back);

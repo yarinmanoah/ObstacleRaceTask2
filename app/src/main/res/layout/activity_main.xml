@@ -8,6 +8,7 @@
     tools:context=".MainActivity"
     >
 
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/space_IMG_background"
         android:layout_width="match_parent"
@@ -15,6 +16,19 @@
         android:scaleType="centerCrop"
         android:background="@color/white" />
 
+    <!-- Odometer TextView -->
+    <TextView
+        android:id="@+id/game_TXT_odometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Odometer: 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="140dp"
@@ -24,6 +38,7 @@
         android:layout_marginEnd="16dp"
         android:orientation="horizontal"
         >
+
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/game_IMG_heart1"
@@ -73,6 +88,17 @@
                 android:background="@null"/>
 
         </RelativeLayout>
+
+        <!-- Score display TextView -->
+        <TextView
+            android:id="@+id/game_TXT_score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/score_0"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <RelativeLayout
             android:layout_width="0dp"

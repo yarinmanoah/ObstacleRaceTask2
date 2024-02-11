@@ -14,31 +14,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 
 public class MainActivity extends AppCompatActivity {
     private AppCompatImageButton game_BTN_left,game_BTN_right;
     private ImageView[] game_IMG_player;
-    private ImageView[][] game_IMG_ios;
-    private ImageView[][] game_IMG_good;
+    private ImageView[][] game_IMG_ios,game_IMG_good;
     private ShapeableImageView[] game_IMG_hearts;
     private AppCompatImageView space_IMG_background;
-    public static final int DELAY = 1000;
-    //public static final int vibrate = 500;
+    private TextView game_TXT_Score, game_TXT_Odometer;
+    public static int STEP = 1,score=0,Odometer=0,DELAY;
     final Handler handler = new Handler();
     private GameManager gameManager;
     private SensorManager sensorManager;
     private Sensor sensor;
-    private boolean sensorMode = false;
-    public static final String SENSOR_MODE = "SENSOR_MODE";
-    int score=0;
-
-    private final String background = "https://www.pngall.com/wp-content/uploads/2016/07/Space-PNG-HD.png";
-
-
-
-
+    private boolean sensorMode = false,slowMode = false, fastMode= false;
+    public static final String SENSOR_MODE = "SENSOR_MODE", SLOW_MODE = "SLOW_MODE", FAST_MODE = "FAST_MODE",background = "https://www.pngall.com/wp-content/uploads/2016/07/Space-PNG-HD.png";
 
 
     @Override
@@ -52,10 +45,14 @@ public class MainActivity extends AppCompatActivity {
 
         gameManager = new GameManager();
         sensorMode = getIntent().getExtras().getBoolean(SENSOR_MODE);
+        slowMode = getIntent().getExtras().getBoolean(SLOW_MODE);
+        fastMode = getIntent().getExtras().getBoolean(FAST_MODE);
 
         if (sensorMode)
             moveAndroidBySensors();
         else{
+            if(fastMode) {DELAY = 500;}
+            if(slowMode) {DELAY = 2500;}
             moveCarByButtons();
         }
         startTimer();
@@ -83,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         game_BTN_left = findViewById(R.id.game_BTN_left);
         game_BTN_right = findViewById(R.id.game_BTN_right);
         space_IMG_background = findViewById(R.id.space_IMG_background);
+        game_TXT_Score = findViewById(R.id.game_TXT_score);
+        game_TXT_Odometer = findViewById(R.id.game_TXT_odometer);
 
         initGoodArr();
         initIosArr();
@@ -98,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.game_IMG_Player4),
                 findViewById(R.id.game_IMG_Player5),
         };
+
     }
 
     private void initHeartArr() {
@@ -224,7 +224,8 @@ public class MainActivity extends AppCompatActivity {
                 gameManager.setHit(false);
             }
             else  if (gameManager.isGift()) {
-                score+=1000;
+                score+=100;
+                game_TXT_Score.setText("Score: " + score);
                 GameUtils.toast(this,"GOOD! +100");
                 GameUtils.vibrate(this);
                 gameManager.setGiftHit(false);
@@ -239,7 +240,8 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         public void run() {
             handler.postDelayed(this, DELAY);
-            score+=100;
+            Odometer+=STEP;
+            game_TXT_Odometer.setText("Odometer: " + Odometer);
             refreshUI();
         }
     };

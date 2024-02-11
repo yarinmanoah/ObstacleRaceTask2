@@ -8,7 +8,6 @@ public class GameManager {
     public boolean[] lifes;
     public boolean[][] activeIos;
     public boolean[][] activeGifts;
-
     private int lives = MAX_LIVES;
     private int AndroidIndex;
     boolean isHit, finish,gift;
@@ -58,7 +57,6 @@ public class GameManager {
 
                         if (lives == 0)
                             finish = true;
-
                     }
                 }
                 else if(i != getROWS()-1){

@@ -1,7 +1,6 @@
 package com.example.obstacleracetask2;
 
 public class Score {
-
     private String name;
     private int score = 0;
     private double lat = 0.0;
