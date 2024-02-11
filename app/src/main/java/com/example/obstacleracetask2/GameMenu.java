@@ -20,7 +20,7 @@ public class GameMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_menu);
+        setContentView(R.layout.activity_game_menu);
         GameUtils.hideSystemUI(this);
         findView();
         GameUtils.setBackground(this,menu_IMG_background, background);
