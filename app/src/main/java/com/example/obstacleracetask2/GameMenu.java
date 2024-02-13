@@ -10,11 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.google.android.material.button.MaterialButton;
 
 public class GameMenu extends AppCompatActivity {
-    private MaterialButton menu_BTN_SlowButton;
-    private MaterialButton menu_BTN_FastButton;
-
-    private MaterialButton menu_BTN_sensor;
-    private MaterialButton menu_BTN_highScores;
+    private MaterialButton menu_BTN_SlowButton, menu_BTN_FastButton, menu_BTN_sensor, menu_BTN_highScores;
     private AppCompatImageView menu_IMG_background;
     private final String background = "https://www.pngall.com/wp-content/uploads/2016/07/Space-PNG-HD.png";
     @Override
@@ -25,16 +21,13 @@ public class GameMenu extends AppCompatActivity {
         findView();
         GameUtils.setBackground(this,menu_IMG_background, background);
         clicked();
-
     }
-
     private void clicked() {
         menu_BTN_SlowButton.setOnClickListener(view -> moveToGame(false,true,false));
         menu_BTN_FastButton.setOnClickListener(view -> moveToGame(false,false,true));
         menu_BTN_sensor.setOnClickListener(view -> moveToGame(true,false,false));
         menu_BTN_highScores.setOnClickListener(view -> moveToScores());
     }
-
     private void findView() {
         menu_BTN_SlowButton = findViewById(R.id.menu_BTN_slowbutton);
         menu_BTN_FastButton = findViewById(R.id.menu_BTN_fastbutton);
@@ -56,7 +49,6 @@ public class GameMenu extends AppCompatActivity {
     }
     public void moveToScores() {
         Intent ScoreIntent = new Intent(this, Top10Activity.class);
-
         startActivity(ScoreIntent);
     }
 }

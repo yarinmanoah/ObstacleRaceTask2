@@ -51,5 +51,4 @@ public class GameUtils {
                 .makeText(context, msg, Toast.LENGTH_SHORT)
                 .show();
     }
-
 }

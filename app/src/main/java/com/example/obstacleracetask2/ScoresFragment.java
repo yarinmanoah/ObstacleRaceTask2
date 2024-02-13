@@ -1,24 +1,18 @@
 package com.example.obstacleracetask2;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
-
 public class ScoresFragment extends Fragment {
-
     private AppCompatActivity activity;
     private CallBack_List callBackList;
     private MaterialButton[] top;
@@ -32,7 +26,6 @@ public class ScoresFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_scores, container, false);
-
         findViews(view);
         addPlayer();
         return view;
@@ -41,11 +34,9 @@ public class ScoresFragment extends Fragment {
     public void setActivity(AppCompatActivity activity) {
         this.activity = activity;
     }
-
     public void setCallBackList(CallBack_List callBackList) {
         this.callBackList = callBackList;
     }
-
     private void findViews(View view) {
         top = new MaterialButton[]{
                 view.findViewById(R.id.score_1),
@@ -65,24 +56,18 @@ public class ScoresFragment extends Fragment {
         String js = MSPV3.getMe().getString("MY_DB", "");
         MyDB DB= new Gson().fromJson(js, MyDB.class);
         scores = DB.getRecords();
-
         if(scores.size()<10){
             for (int i = 0; i < scores.size(); i++) {
                 top[i].setText("Name: "+scores.get(i).getName()+ " Score: "+scores.get(i).getScore());
                 Score temp = scores.get(i);
                 top[i].setOnClickListener(v -> callBackList.zoom(temp.getLon(),temp.getLat()));
-
             }
         }else{
             for (int i = 0; i < 10; i++) {
                 top[i].setText("Name: "+scores.get(i).getName()+ " Score: "+scores.get(i).getScore());
                 Score temp = scores.get(i);
-
                 top[i].setOnClickListener(v -> callBackList.zoom(temp.getLon(),temp.getLat()));
             }
         }
-
     }
-
-
 }

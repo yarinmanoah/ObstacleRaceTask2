@@ -36,22 +36,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             ft.replace(R.id.map , mapFragment).commit();
         }
         mapFragment.getMapAsync( this);
-
         return view;
     }
-
     @Override
     public void onStop() {
         super.onStop();
         tracker.removeLocationObservers(this);
     }
-
     @Override
     public void onPause() {
         super.onPause();
         tracker.removeLocationObservers(this);
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -64,9 +60,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             System.out.println("Reached in");
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current,14.0f));
         });
-
     }
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -79,7 +73,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             System.out.println("Reached in");
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 14.0f));
         }
-
     }
     public GoogleMap getmMap() {
         return mMap;

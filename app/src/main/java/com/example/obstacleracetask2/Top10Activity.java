@@ -1,9 +1,7 @@
 package com.example.obstacleracetask2;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,12 +19,10 @@ public class Top10Activity extends AppCompatActivity  {
         fragmentScore = new ScoresFragment();
         fragmentScore.setActivity(this);
         fragmentScore.setCallBackList(callBack_list);
-
         getSupportFragmentManager().beginTransaction().add(R.id.frameScores, fragmentScore)
                 .commit();
         fragmentMap= new MapsFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.frameMap, fragmentMap).commit();
-
     }
     CallBack_List callBack_list = new CallBack_List() {
         @Override

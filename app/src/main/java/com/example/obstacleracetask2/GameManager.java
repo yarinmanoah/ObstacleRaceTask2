@@ -23,15 +23,12 @@ public class GameManager {
     public void reduceLives() {
         lives--;
     }
-
     public  int getROWS() {
         return ROWS;
     }
-
     public  int getCOLUMNS() {
         return COLUMNS;
     }
-
     public int getRandom(){
         Random rand = new Random();
         return rand.nextInt(COLUMNS);
@@ -52,32 +49,27 @@ public class GameManager {
                         isHit = true;
                         reduceLives();
                         lifes[lives] = false;
-
                         if (lives == 0)
                             finish = true;
                     }
                 }
                 else if(i != getROWS()-1){
                     activeIos[i+1][j]= activeIos[i][j];
-
                 }
             }
         }
     }
-
     public void updateGifts() {
         for (int i = getROWS()-1; i >=0;i--){
             for (int j = 0; j <getCOLUMNS();j++){
                 if( isGiftActive(i,j) && i == getROWS()-1) {
                     activeGifts[i][j] = false;
-
                     if (j == AndroidIndex) {
                         gift=true;
                     }
                 }
                 else if(i != getROWS()-1){
                     activeGifts[i+1][j]=activeGifts[i][j];
-
                 }
             }
         }
@@ -98,30 +90,24 @@ public class GameManager {
         updateGifts();
         updateNew();
     }
-
     public void setHit(boolean hit) {
         isHit = hit;
     }
-
     public boolean[] getLifes() {
         return lifes;
     }
-
     public boolean isFinish() {
         return finish;
     }
-
     public void setAndroidIndex(int androidIndex) {
         this.AndroidIndex = androidIndex;
     }
-
     public int getAndroidIndex() {
         return AndroidIndex;
     }
     public void setGiftHit(boolean hit) {
         gift = hit;
     }
-
     public boolean isGift() {
         return gift;
     }
