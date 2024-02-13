@@ -1,5 +1,6 @@
 package com.example.obstacleracetask2;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -7,6 +8,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.lifecycle.Observer;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import java.util.Comparator;
@@ -49,25 +52,29 @@ public class GameOverActivity extends AppCompatActivity {
         private void initView() {
             gameOver_BTN_back.setOnClickListener(view -> finish());
             gameOver_BTN_saveRecord.setOnClickListener(view -> {
-                double latitude = 0.0;
-                double longitude = 0.0;
-
                 playerName = gameOver_LBL_name.getText().toString();
 
                 gpsService = new GPSTracker(GameOverActivity.this);
                 if (gpsService.canGetLocation()) {
-                    latitude = gpsService.getLatitude();
-                    longitude = gpsService.getLongitude();
-                    Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+                    gpsService.getLocationMutableLiveData()
+                            .observe(this, new Observer<Location>() {
+                                @Override
+                                public void onChanged(Location location) {
+                                    if(location != null) {
+                                        double latitude = location.getLatitude();
+                                        double longitude = location.getLongitude();
+                                        // * End of Location Service
+                                        gameOver_LBL_name.setVisibility(View.INVISIBLE);
+                                        gameOver_BTN_saveRecord.setVisibility(View.INVISIBLE);
+                                        saveRecord(playerName, score, longitude, latitude);
+                                        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+                                        gpsService.removeLocationObservers(GameOverActivity.this);
+                                    }
+                                }
+                            });
                 } else {
                     gpsService.showSettingsAlert();
                 }
-                // * End of Location Service
-
-                gameOver_LBL_name.setVisibility(View.INVISIBLE);
-                gameOver_BTN_saveRecord.setVisibility(View.INVISIBLE);
-
-                saveRecord(playerName, score, longitude, latitude);
             });
         }
 
@@ -76,7 +83,6 @@ public class GameOverActivity extends AppCompatActivity {
             gameOver_LBL_result = findViewById(R.id.gameOver_LBL_result);
             gameOver_LBL_name = findViewById(R.id.gameOver_LBL_name);
             space_IMG_Background = findViewById(R.id.space_IMG_background);
-
             gameOver_BTN_saveRecord = findViewById(R.id.gameOver_BTN_saveRecord);
             gameOver_BTN_back = findViewById(R.id.gameOver_BTN_back);
 
@@ -96,13 +102,11 @@ public class GameOverActivity extends AppCompatActivity {
             );
 
             myDB.getRecords().sort(new SortByScore());
-
             String json = new Gson().toJson(myDB);
             MSPV3.getMe().putString("MY_DB", json);
         }
     }
     class SortByScore implements Comparator<Score> {
-
         @Override
         public int compare(Score rec1, Score rec2) {
 

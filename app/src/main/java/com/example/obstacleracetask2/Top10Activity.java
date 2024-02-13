@@ -27,8 +27,6 @@ public class Top10Activity extends AppCompatActivity  {
         fragmentMap= new MapsFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.frameMap, fragmentMap).commit();
 
-
-
     }
     CallBack_List callBack_list = new CallBack_List() {
         @Override

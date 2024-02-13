@@ -6,10 +6,8 @@ import java.util.Random;
 public class GameManager {
     public static final int MAX_LIVES = 3,COLUMNS = 5,ROWS = 5;
     public boolean[] lifes;
-    public boolean[][] activeIos;
-    public boolean[][] activeGifts;
-    private int lives = MAX_LIVES;
-    private int AndroidIndex;
+    public boolean[][] activeIos, activeGifts;
+    private int lives = MAX_LIVES, AndroidIndex;
     boolean isHit, finish,gift;
 
     public GameManager() {

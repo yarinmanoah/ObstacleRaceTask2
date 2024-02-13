@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class MyDB {
 
     private ArrayList<Score> scores;
-
     public MyDB() { }
 
     public ArrayList<Score> getRecords() {

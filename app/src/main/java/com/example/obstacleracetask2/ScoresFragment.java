@@ -33,7 +33,6 @@ public class ScoresFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_scores, container, false);
 
-
         findViews(view);
         addPlayer();
         return view;
@@ -71,12 +70,7 @@ public class ScoresFragment extends Fragment {
             for (int i = 0; i < scores.size(); i++) {
                 top[i].setText("Name: "+scores.get(i).getName()+ " Score: "+scores.get(i).getScore());
                 Score temp = scores.get(i);
-                top[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        callBackList.zoom(temp.getLon(),temp.getLat());
-                    }
-                });
+                top[i].setOnClickListener(v -> callBackList.zoom(temp.getLon(),temp.getLat()));
 
             }
         }else{
@@ -84,12 +78,7 @@ public class ScoresFragment extends Fragment {
                 top[i].setText("Name: "+scores.get(i).getName()+ " Score: "+scores.get(i).getScore());
                 Score temp = scores.get(i);
 
-                top[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        callBackList.zoom(temp.getLon(),temp.getLat());
-                    }
-                });
+                top[i].setOnClickListener(v -> callBackList.zoom(temp.getLon(),temp.getLat()));
             }
         }
 

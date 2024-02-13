@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ShapeableImageView[] game_IMG_hearts;
     private AppCompatImageView space_IMG_background;
     private TextView game_TXT_Score, game_TXT_Odometer;
-    public static int STEP = 1,score=0,Odometer=0,DELAY;
+    public static int STEP = 1,score=0,Odometer=0, DELAY=2000;
     final Handler handler = new Handler();
     private GameManager gameManager;
     private SensorManager sensorManager;
@@ -219,6 +219,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             if (gameManager.isHit) {
                 refreshHearts();
+                SoundService sound = new SoundService(getBaseContext());
+                sound.makeSound();
                 GameUtils.toast(this,"HIT!");
                 GameUtils.vibrate(this);
                 gameManager.setHit(false);
@@ -240,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
     Runnable runnable = new Runnable() {
         public void run() {
             handler.postDelayed(this, DELAY);
+            System.out.println(DELAY);
             Odometer+=STEP;
             game_TXT_Odometer.setText("Odometer: " + Odometer);
             refreshUI();
@@ -289,15 +292,28 @@ public class MainActivity extends AppCompatActivity {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
     private final SensorEventListener sensorEventListener = new SensorEventListener() {
-
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             moveAndroidBySensors(sensorEvent.values[0]);
-        }
 
+//            // Handling tilt for speed adjustment
+            float y = sensorEvent.values[1]; // Y-axis value for forward/backward tilt
+
+//            // Define thresholds for tilt sensitivity
+            final float FORWARD_TILT_THRESHOLD = 2.0f; // Adjust these values based on desired sensitivity
+            final float BACKWARD_TILT_THRESHOLD = -2.0f;
+
+            // Speed up if tilted forwardDELAY
+            if (y > FORWARD_TILT_THRESHOLD) {
+                DELAY = Math.min(DELAY + 100, 2500); // Increase delay to slow down, with a maximum delay limit
+            }
+            // Slow down if tilted backward
+            else if (y < BACKWARD_TILT_THRESHOLD) {
+                DELAY = Math.max(DELAY - 100, 500); // Decrease delay to speed up, with a minimum delay limit
+            }
+        }
         @Override
         public void onAccuracyChanged(Sensor sensor, int i) {
-
         }
     };
     public void start() {

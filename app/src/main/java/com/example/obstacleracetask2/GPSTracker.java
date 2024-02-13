@@ -1,5 +1,7 @@
 package com.example.obstacleracetask2;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Service;
@@ -17,8 +19,10 @@ import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 
-class GPSTracker extends Service implements LocationListener {
+class GPSTracker implements LocationListener {
     private final Context mContext;
 
     // flag for GPS status
@@ -30,7 +34,7 @@ class GPSTracker extends Service implements LocationListener {
     // flag for GPS status
     boolean canGetLocation = false;
 
-    Location location; // location
+    private MutableLiveData<Location> locationMutableLiveData = new MutableLiveData<>();
     double latitude; // latitude
     double longitude; // longitude
 
@@ -48,7 +52,18 @@ class GPSTracker extends Service implements LocationListener {
         getLocation();
     }
 
-    public Location getLocation() {
+
+
+    public void removeLocationObservers(LifecycleOwner owner) {
+        locationMutableLiveData.removeObservers(owner);
+    }
+
+    public MutableLiveData<Location> getLocationMutableLiveData() {
+        return locationMutableLiveData;
+    }
+
+    public void getLocation() {
+        Location location =null;
         try {
             locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 
@@ -115,45 +130,10 @@ class GPSTracker extends Service implements LocationListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return location;
     }
 
-    /**
-     * Stop using GPS listener
-     * Calling this function will stop using GPS in your app
-     * */
-
-    public void stopUsingGPS(){
-        if(locationManager != null){
-            locationManager.removeUpdates(GPSTracker.this);
-        }
-    }
-
-    /**
-     * Function to get latitude
-     * */
-
-    public double getLatitude(){
-        if(location != null){
-            latitude = location.getLatitude();
-        }
-
-        // return latitude
-        return latitude;
-    }
-
-    /**
-     * Function to get longitude
-     * */
-
-    public double getLongitude(){
-        if(location != null){
-            longitude = location.getLongitude();
-        }
-
-        // return longitude
-        return longitude;
+    public Location getLocationCurrent() {
+        return locationMutableLiveData.getValue();
     }
 
     /**
@@ -196,6 +176,7 @@ class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        locationMutableLiveData.setValue(location);
     }
 
     @Override
@@ -208,10 +189,5 @@ class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
     }
 }

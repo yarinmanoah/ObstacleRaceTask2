@@ -24,23 +24,6 @@ public class MSPV3 {
         return me;
     }
 
-
-    public void putDouble(String KEY, double defValue) {
-        putString(KEY, String.valueOf(defValue));
-    }
-
-    public double getDouble(String KEY, double defValue) {
-        return Double.parseDouble(getString(KEY, String.valueOf(defValue)));
-    }
-
-    public int getInt(String KEY, int defValue) {
-        return sharedPreferences.getInt(KEY, defValue);
-    }
-
-    public void putInt(String KEY, int value) {
-        sharedPreferences.edit().putInt(KEY, value).apply();
-    }
-
     public String getString(String KEY, String defValue) {
         return sharedPreferences.getString(KEY, defValue);
     }
