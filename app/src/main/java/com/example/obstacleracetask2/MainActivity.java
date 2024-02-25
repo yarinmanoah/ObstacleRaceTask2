@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean sensorMode = false, slowMode = false, fastMode = false;
     public static final String SENSOR_MODE = "SENSOR_MODE", SLOW_MODE = "SLOW_MODE", FAST_MODE = "FAST_MODE", background = "https://www.pngall.com/wp-content/uploads/2016/07/Space-PNG-HD.png";
 
+    public SoundService sound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         GameUtils.hideSystemUI(this);
         findView();
         GameUtils.setBackground(this, space_IMG_background, background);
-
         gameManager = new GameManager();
         sensorMode = getIntent().getExtras().getBoolean(SENSOR_MODE);
         slowMode = getIntent().getExtras().getBoolean(SLOW_MODE);
@@ -204,9 +205,10 @@ public class MainActivity extends AppCompatActivity {
             finish();
         } else {
             if (gameManager.isHit) {
+                sound = new SoundService(this,R.raw.crash);
+                sound.playSound();
+                sound.stopSound();
                 refreshHearts();
-                SoundService sound = new SoundService(getBaseContext());
-                sound.makeSound();
                 GameUtils.toast(this, "HIT!");
                 GameUtils.vibrate(this);
                 gameManager.setHit(false);
